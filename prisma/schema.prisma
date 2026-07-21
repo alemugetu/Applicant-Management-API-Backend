@@ -1,0 +1,54 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Enums for rigid domain integrity
+enum Status {
+  PENDING
+  SHORTLISTED
+  ACCEPTED
+  REJECTED
+}
+
+enum Track {
+  FRONTEND
+  BACKEND
+  MOBILE
+  UI_UX
+  DATA_ANALYTICS
+}
+
+// Admin Model for Authentication
+model Admin {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Applicant Model
+model Applicant {
+  id        String    @id @default(uuid())
+  fullName  String
+  email     String    @unique
+  track     Track
+  status    Status    @default(PENDING)
+  notes     String?
+  deletedAt DateTime? // Soft-delete flag (Null = Active, Timestamp = Soft-deleted)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([track])
+}
+
