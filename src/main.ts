@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,9 @@ async function bootstrap() {
       transform: true, // Automatically transforms payloads to DTO class instances
     }),
   );
+
+  // Centralized Exception Filter — consistent error response shape across all modules
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   // OpenAPI / Swagger Documentation Setup
   const config = new DocumentBuilder()

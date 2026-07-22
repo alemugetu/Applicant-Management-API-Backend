@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
@@ -7,7 +8,13 @@ import { ApplicantsModule } from './applicants/applicants.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, ApplicantsModule, DashboardModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }), // Makes ConfigService available everywhere
+    PrismaModule,
+    AuthModule,
+    ApplicantsModule,
+    DashboardModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
