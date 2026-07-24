@@ -18,7 +18,7 @@ export class CreateApplicantDto {
     @IsNotEmpty()
     track: Track;
 
-    @ApiPropertyOptional({ example: 'Solid background in Django and Node.js.', description: 'Initial notes (max 1000 characters)' })
+    @ApiPropertyOptional({ example: 'Solid background in Node.js and NestJS.', description: 'Initial notes (max 1000 characters)' })
     @IsString()
     @IsOptional()
     @MaxLength(1000, { message: 'Notes cannot exceed 1000 characters' })
